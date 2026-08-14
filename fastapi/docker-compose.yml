@@ -1,0 +1,37 @@
+services:
+  # Servicio 1: Base de datos PostgreSQL
+  db:
+    image: postgres:17-alpine
+    container_name: postgres_labmem
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./fglab-db/backup_labmem.sql:/docker-entrypoint-initdb.d/backup_labmem.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Servicio 2: API de FastAPI
+  api:
+    build:
+      context: ./fastapi-crud
+      dockerfile: Dockerfile
+    container_name: fastapi_fglab
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+    depends_on:
+      db:
+        condition: service_healthy  # Espera a que Postgres esté 100% listo para responder consultas
