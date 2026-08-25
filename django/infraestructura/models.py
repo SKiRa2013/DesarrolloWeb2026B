@@ -1,4 +1,9 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+
+def validate_ip(value):
+    if value.startswith("192.168.100."):
+        raise ValidationError("Las direcciones IP en el segmento 192.168.100.x están reservadas para pruebas internas de aislamiento")
 
 # Create your models here.
 class NodoServidor(models.Model):
@@ -11,7 +16,7 @@ class NodoServidor(models.Model):
     ]
 
     nombre_host = models.CharField(max_length=100, unique=True, verbose_name="Hostname")
-    direccion_ip = models.GenericIPAddressField(verbose_name="Dirección IP")
+    direccion_ip = models.GenericIPAddressField(verbose_name="Dirección IP", validators=[validate_ip])
     motor_contenedores = models.CharField(
         max_length=20,
         choices=MOTORES_CONTENEDOR,
@@ -25,6 +30,7 @@ class NodoServidor(models.Model):
 
     def __str__(self):
         return f"{self.nombre_host} [{self.direccion_ip}]"
+            
 
     class Meta:
         verbose_name = "Nodo de Servidor"
