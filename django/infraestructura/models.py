@@ -5,6 +5,9 @@ def validate_ip(value):
     if value.startswith("192.168.100."):
         raise ValidationError("Las direcciones IP en el segmento 192.168.100.x están reservadas para pruebas internas de aislamiento")
 
+    if value.startswith("10.10.10."):
+        raise ValidationError("Las direcciones IP en el segmento 10.10.10.x están reservadas para pruebas internas de aislamiento")
+
 
 # Create your models here.
 class NodoServidor(models.Model):
@@ -44,7 +47,7 @@ class RegistroAuditoria(models.Model):
     fecha_evento = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.servidor}: {self.detalles} @ {self.fecha_evento}"
+        return f"{self.detalles} on {self.servidor.nombre_host} @ {self.fecha_evento}"
 
     class Meta:
         verbose_name = "Registro de Auditoría"
