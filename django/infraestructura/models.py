@@ -5,6 +5,7 @@ def validate_ip(value):
     if value.startswith("192.168.100."):
         raise ValidationError("Las direcciones IP en el segmento 192.168.100.x están reservadas para pruebas internas de aislamiento")
 
+
 # Create your models here.
 class NodoServidor(models.Model):
     # Opciones predefinidas para el panel
@@ -35,4 +36,16 @@ class NodoServidor(models.Model):
     class Meta:
         verbose_name = "Nodo de Servidor"
         verbose_name_plural = "Flota de Servidores"
-        
+
+
+class RegistroAuditoria(models.Model):
+    servidor = models.ForeignKey(NodoServidor, on_delete=models.CASCADE, related_name='auditorias')
+    detalles = models.TextField(verbose_name="Detalle del Evento")
+    fecha_evento = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.servidor}: {self.detalles} @ {self.fecha_evento}"
+
+    class Meta:
+        verbose_name = "Registro de Auditoría"
+        verbose_name_plural = "Registros de Auditoría"
