@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from infraestructura.models import NodoServidor, RegistroAuditoria
-from infraestructura.forms import NodoServidorForm
+from infraestructura.models import NodoServidor, RegistroAuditoria, IncidenciaServidor
+from infraestructura.forms import NodoServidorForm, IncidenciaServidorForm
 
 #################################################################################################################
 
@@ -31,8 +31,8 @@ def lista_servidores(request):
 def editar_servidor(request, pk):
     nodo = get_object_or_404(NodoServidor, pk=pk)
 
-    if request.method == 'PUT':
-        form = NodoServidorForm(request.PUT, instance=nodo)
+    if request.method == 'POST':
+        form = NodoServidorForm(request.POST, instance=nodo)
 
         if form.is_valid():
             form.save()
@@ -63,3 +63,65 @@ def lista_auditorias(request):
     contexto = {'auditorias': auditorias}
     return render(request, 'infraestructura/auditorias.html', contexto)
      
+#################################################################################################################
+
+def crear_incidencia(request, pk):
+    servidor = get_object_or_404(NodoServidor, pk=pk)
+    
+    if request.method == 'POST':
+        incidencia = IncidenciaServidor(servidor=servidor)
+        form = IncidenciaServidorForm(request.POST, instance=incidencia)
+
+        if form.is_valid():
+            form.save()
+            incidencia.servidor = servidor
+            incidencia.save()
+            return redirect('detalle_servidor', pk=pk)
+
+    else:
+        form = IncidenciaServidorForm()
+
+    return render(request, 'infraestructura/crear_incidencia.html', {'form': form, 'servidor': servidor})
+
+def detalle_incidencia(request, pk, inc_pk):
+    servidor = get_object_or_404(NodoServidor, pk=pk)
+    incidencia = get_object_or_404(IncidenciaServidor, pk=inc_pk, servidor=servidor)
+
+    return render(request, 'infraestructura/detalle_incidencia.html', {
+        'servidor': servidor,
+        'incidencia': incidencia
+    })
+
+def editar_incidencia(request, pk, inc_pk):
+    servidor = get_object_or_404(NodoServidor, pk=pk)
+    incidencia = get_object_or_404(IncidenciaServidor, pk=inc_pk, servidor=servidor)
+
+    if request.method == 'POST':
+        form = IncidenciaServidorForm(request.POST, instance=incidencia)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('detalle_incidencia', pk=servidor.pk, inc_pk=incidencia.pk)
+        
+    else:
+        form = IncidenciaServidorForm(instance=incidencia)
+
+    return render(request, 'infraestructura/editar_incidencia.html', {
+        'form': form,
+        'servidor': servidor,
+        'incidencia': incidencia
+    })
+    
+def eliminar_incidencia(request, pk, inc_pk):
+    servidor = get_object_or_404(NodoServidor, pk=pk)
+    incidencia = get_object_or_404(IncidenciaServidor, pk=inc_pk, servidor=servidor)
+
+    if request.method == 'POST':
+        incidencia.delete()
+        return redirect('detalle_servidor', pk=servidor.pk)
+
+    return render(request, 'infraestructura/eliminar_incidencia.html', {
+        'servidor': servidor,
+        'incidencia': incidencia
+    })
+    

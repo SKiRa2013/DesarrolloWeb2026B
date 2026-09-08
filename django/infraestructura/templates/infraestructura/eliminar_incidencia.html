@@ -1,0 +1,19 @@
+{% extends 'infraestructura/base.html' %}
+{% block title %}Eliminar - {{ incidencia.titulo }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 text-center p-4">
+            <div class="card-body">
+                <h3 class="text-danger mb-3">¿Estás seguro?</h3>
+                <p class="text-muted">Estás a punto de eliminar permanentemente la incidencia <strong>{{ incidencia.titulo }}</strong> del servidor <strong>{{ servidor.nombre_host }}</strong> ({{ servidor.direccion_ip }}).</p>
+                <form method="POST" class="mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'detalle_incidencia' servidor.pk incidencia.pk %}" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-danger">Sí, eliminar incidencia</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

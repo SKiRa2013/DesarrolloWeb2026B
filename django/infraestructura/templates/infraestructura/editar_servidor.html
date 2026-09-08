@@ -1,5 +1,7 @@
 {% extends 'infraestructura/base.html' %}
+
 {% block title %}Editar - {{ nodo.nombre_host }}{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-7">
@@ -8,7 +10,7 @@
                 <h4 class="mb-0">Modificar Nodo de Servidor: {{ nodo.nombre_host }}</h4>
             </div>
             <div class="card-body p-4">
-                <form method="PUT">
+                <form method="POST">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div class="d-flex justify-content-between mt-4">
