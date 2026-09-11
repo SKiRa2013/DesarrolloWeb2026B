@@ -42,6 +42,7 @@
                     </td>
                     <td><small class="text-muted">{{ incidencia.fecha_reg|date:"Y-m-d H:i" }}</small></td>
                     <td class="text-end px-3">
+                        <a href="{% url 'detalle_incidencia' nodo.pk incidencia.pk %}" class="btn btn-sm btn-outline-primary">Ver</a>
                         <a href="{% url 'editar_incidencia' nodo.pk incidencia.pk %}" class="btn btn-sm btn-outline-warning me-1">Editar</a>
                         <a href="{% url 'eliminar_incidencia' nodo.pk incidencia.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
                     </td>
