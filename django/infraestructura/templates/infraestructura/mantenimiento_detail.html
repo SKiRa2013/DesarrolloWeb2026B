@@ -1,0 +1,84 @@
+{% extends 'infraestructura/base.html' %}
+
+{% block title %} Detalle de Mantenimiento - {{ mantenimiento.titulo_tarea }} {% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'lista_mantenimientos' %}" class="btn btn-outline-secondary btn-sm">
+      ← Volver a la lista
+    </a>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+      <h2 class="h4 text-primary m-0"> {{ mantenimiento.titulo_tarea }} </h2>
+      <div>
+        {% if mantenimiento.completado %}
+          <span class="badge bg-success fs-6">Ejecutado</span>
+        {% else %}
+          <span class="badge bg-warning text-dark fs-6">Pendiente</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+          <h6 class="text-muted text-uppercase fw-bold fs-7">Servidor Asociado</h6>
+          <p class="fs-5 fw-semibold mb-0">
+            {% if mantenimiento.servidor %}
+              <a href="{% url 'detalle_servidor' mantenimiento.servidor.pk %}" class="text-decoration-none">
+                {{ mantenimiento.servidor.nombre_host }}
+              </a>
+            {% else %}
+              <span class="text-muted">Sin servidor asignado</span>
+            {% endif %}
+          </p>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <h6 class="text-muted text-uppercase fw-bold fs-7">Tipo de Mantenimiento</h6>
+          <p class="fs-6 mb-0">{{ mantenimiento.get_tipo_display|default:mantenimiento.tipo }}</p>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <h6 class="text-muted text-uppercase fw-bold fs-7">Fecha Programada</h6>
+          <p class="fs-6 mb-0">{{ mantenimiento.fecha_programada|date:'Y-m-d H:i' }}</p>
+        </div>
+      </div>
+
+      <hr class="my-3 text-muted">
+
+      <div class="mb-4">
+        <h6 class="text-muted text-uppercase fw-bold fs-7 mb-2">Descripción / Detalle de la Tarea</h6>
+        <div class="p-3 bg-light rounded border">
+          <p class="mb-0 text-dark" style="white-space: pre-line;">
+            {% if mantenimiento.descripcion_tecnica %}
+              {{ mantenimiento.descripcion_tecnica }}
+            {% else %}
+              <em class="text-muted">No se proporcionó una descripción para esta tarea.</em>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      {% if mantenimiento.observaciones %}
+        <div class="mb-3">
+          <h6 class="text-muted text-uppercase fw-bold fs-7 mb-2">Observaciones / Notas de Ejecución</h6>
+          <div class="p-3 bg-light rounded border">
+            <p class="mb-0 text-dark" style="white-space: pre-line;">{{ mantenimiento.observaciones }}</p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="card-footer bg-white py-3 d-flex justify-content-end gap-2">
+      <a href="{% url 'editar_mantenimiento' mantenimiento.pk %}" class="btn btn-warning fw-semibold">
+        Editar Tarea
+      </a>
+      <a href="{% url 'eliminar_mantenimiento' mantenimiento.pk %}" class="btn btn-outline-danger fw-semibold">
+        Eliminar
+      </a>
+    </div>
+  </div>
+{% endblock %}

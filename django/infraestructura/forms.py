@@ -1,5 +1,5 @@
 from django import forms
-from infraestructura.models import NodoServidor, RegistroAuditoria, IncidenciaServidor
+from infraestructura.models import NodoServidor, RegistroAuditoria, IncidenciaServidor, MantenimientoNodo
 
 class NodoServidorForm(forms.ModelForm):
     class Meta:
@@ -18,3 +18,18 @@ class RegistroAuditoriaForm(forms.ModelForm):
         model = RegistroAuditoria
         fields = ['servidor', 'detalles',]
 
+
+class MantenimientoForm(forms.ModelForm):
+    class Meta:
+        model = MantenimientoNodo
+        fields = ['servidor', 'titulo_tarea', 'descripcion_tecnica', 'tipo', 'fecha_programada', 'completado']
+
+        widgets = {
+            'servidor': forms.Select(attrs={'class': 'form-select'}),
+            'titulo_tarea': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion_tecnica': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'tipo': forms.Select(attrs={'class': 'form-select'}),
+            'fecha_programada': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'class': 'form-control', 'type': 'datetime-local'}),
+            'completado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        } 
+        

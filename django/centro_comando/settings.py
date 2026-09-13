@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+from django.conf.global_settings import DATETIME_INPUT_FORMATS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-wbjmmdi$_1el(@cdhi=u@q-2u%*y02prfce-9z)7od0bd1gx=x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.20.55.44']     # Change this IP with your own
+ALLOWED_HOSTS = ['192.168.20.13']     # Change this IP with your own
 
 
 # Application definition
@@ -115,6 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
+
+DATETIME_INPUT_FORMATS = [
+    '%Y-%m-%dT%H:%M:%S',
+    '%Y-%m-%dT%H:%M',
+    '%Y-%m-%d %H:%M:%S',
+    '%Y-%m-%d',
+]
 
 LANGUAGE_CODE = 'es-CO'
 
