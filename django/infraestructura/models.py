@@ -69,7 +69,7 @@ class IncidenciaServidor(models.Model):
     
 
 class RegistroAuditoria(models.Model):
-    servidor = models.ForeignKey(NodoServidor, on_delete=models.CASCADE, related_name='auditorias')
+    servidor = models.ForeignKey(NodoServidor, on_delete=models.PROTECT, related_name='auditorias')
     detalles = models.TextField(verbose_name="Detalle del Evento")
     fecha_evento = models.DateTimeField(auto_now_add=True)
 
@@ -89,7 +89,7 @@ class MantenimientoNodo(models.Model):
         ('hardware', 'Revisión de Hardware'), 
     ] 
     
-    servidor = models.ForeignKey(NodoServidor, on_delete=models.CASCADE, related_name='mantenimientos', verbose_name="Servidor Asignado")
+    servidor = models.ForeignKey(NodoServidor, on_delete=models.PROTECT, related_name='mantenimientos', verbose_name="Servidor Asignado")
     titulo_tarea = models.CharField(max_length=150, verbose_name="Título del Mantenimiento")
     descripcion_tecnica = models.TextField(verbose_name="Descripción de la Tarea")
     tipo = models.CharField(max_length=30, choices=TIPO_TAREA, default='actualizacion', verbose_name="Tipo de Tarea")
