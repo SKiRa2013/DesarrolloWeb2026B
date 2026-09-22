@@ -1,0 +1,89 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">
+            @if (isEditMode) { Editar Servidor: {{ formServidor.get('nombre_host')?.value }} } @else { Registrar Nuevo Servidor }
+          </h4>
+          <a routerLink="/servidores" class="btn btn-outline-light btn-sm">← Volver</a>
+        </div>
+
+        <div class="card-body p-4">
+          @if (error) {
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+          }
+
+          @if (cargando) {
+            <div class="text-center py-4">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+              </div>
+            </div>
+          } @else {
+            <form [formGroup]="formServidor" (ngSubmit)="guardar()">
+              
+              
+              <div class="mb-3">
+                <label for="nombre_host" class="form-label fw-bold">Nombre del Host (Hostname)</label>
+                <input id="nombre_host" type="text" class="form-control" formControlName="nombre_host" placeholder="ej. srv-app-prod-01" />
+                @if (formServidor.get('nombre_host')?.touched && formServidor.get('nombre_host')?.invalid) {
+                  <div class="text-danger small mt-1">El nombre del host es obligatorio.</div>
+                }
+              </div>
+
+              
+              <div class="mb-3">
+                <label for="direccion_ip" class="form-label fw-bold">Dirección IP (Opcional)</label>
+                <input id="direccion_ip" type="text" class="form-control" formControlName="direccion_ip" placeholder="ej. 192.168.20.13" />
+                @if (formServidor.get('direccion_ip')?.touched && formServidor.get('direccion_ip')?.invalid) {
+                  <div class="text-danger small mt-1">Ingrese una dirección IP válida.</div>
+                }
+              </div>
+
+              <div class="row">
+                
+                <div class="col-md-6 mb-3">
+                  <label for="motor_contenedores" class="form-label fw-bold">Motor de Contenedores</label>
+                  <select id="motor_contenedores" class="form-select" formControlName="motor_contenedores">
+                    <option value="Docker">Docker</option>
+                    <option value="Podman">Podman</option>
+                    <option value="Containerd">Containerd</option>
+                    <option value="Ninguno">Ninguno</option>
+                  </select>
+                </div>
+
+                
+                <div class="row mb-4">
+                  <div class="col-md-6">
+                    <div class="form-check form-switch">
+                      <input type="checkbox" id="en_produccion" formControlName="en_produccion" class="form-check-input" role="switch" />
+                      <label for="en_produccion" class="form-check-label fw-semibold">
+                        Servidor en Producción
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
+              <div class="mb-4 form-check">
+                <input id="proxy_nginx" type="checkbox" class="form-check-input" formControlName="proxy_nginx" />
+                <label for="proxy_nginx" class="form-check-label">¿Tiene Nginx configurado como Reverse Proxy?</label>
+              </div>
+
+              
+              <div class="d-flex justify-content-end gap-2">
+                <a routerLink="/servidores" class="btn btn-outline-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary fw-bold" [disabled]="enviando">
+                  @if (enviando) { Guardando... } @else { Guardar Servidor }
+                </button>
+              </div>
+
+            </form>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

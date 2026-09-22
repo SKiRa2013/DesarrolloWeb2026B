@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-wbjmmdi$_1el(@cdhi=u@q-2u%*y02prfce-9z)7od0bd1gx=x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.20.69.131']     # Change this IP with your own
-
+ALLOWED_HOSTS = ['10.20.69.131', '192.168.20.13']     # Change this IP with your own
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -38,12 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'drf_spectacular',
     'infraestructura',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

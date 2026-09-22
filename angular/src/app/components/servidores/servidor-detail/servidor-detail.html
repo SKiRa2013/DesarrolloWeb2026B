@@ -1,0 +1,91 @@
+<div class="container mt-5">
+  @if (cargando) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando detalles...</span>
+      </div>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger" role="alert">{{ error }}</div>
+    <a routerLink="/servidores" class="btn btn-secondary">Volver a la lista</a>
+  }
+
+  @if (!cargando && servidor) {
+    <div class="mb-3">
+      <a routerLink="/servidores" class="btn btn-outline-secondary btn-sm">← Volver a la lista</a>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h3 class="text-primary m-0">{{ servidor.nombre_host }}</h3>
+        <div>
+          <a [routerLink]="['/servidores', servidor.id, 'editar']" class="btn btn-warning btn-sm me-2">Editar Servidor</a>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <h6 class="text-muted fw-bold">DIRECCIÓN IP</h6>
+            <p class="fs-5">{{ servidor.direccion_ip || 'No asignada' }}</p>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-muted fw-bold">MOTOR CONTENEDORES</h6>
+            <p class="fs-5">{{ servidor.motor_contenedores || 'Docker' }}</p>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-muted fw-bold">PROXY NGINX</h6>
+            <p class="fs-5">
+              @if (servidor.proxy_inverso) {
+                <span class="badge bg-success">Habilitado</span>
+              } @else {
+                <span class="badge bg-secondary">Deshabilitado</span>
+              }
+            </p>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-muted fw-bold">ESTADO OPERATIVO</h6>
+            <p class="fs-5">
+              <span class="badge bg-info text-dark">{{ servidor.en_produccion }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+        <h5 class="m-0 text-dark">Incidencias Registradas</h5>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Descripción</th>
+              <th>Fecha Registro</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (incidencia of incidencias; track incidencia.id) {
+              <tr>
+                <td class="fw-bold">{{ incidencia.titulo }}</td>
+                <td>{{ incidencia.descripcion }}</td>
+                <td>{{ incidencia.fecha_reg | date:'short' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="text-center text-muted py-3">
+                  No hay incidencias reportadas para este servidor.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>
