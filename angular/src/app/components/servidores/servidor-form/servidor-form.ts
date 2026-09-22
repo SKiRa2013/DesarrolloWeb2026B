@@ -21,39 +21,25 @@ export class ServidorForm implements OnInit {
   formServidor: FormGroup = this.fb.group({
     nombre_host: ['', [Validators.required, Validators.maxLength(100)]],
     direccion_ip: ['', [Validators.pattern('^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\(|^\)')]],
-    motor_contenedores: ['Docker', [Validators.required]],
-    proxy_nginx: [true],
+    motor_contenedores: ['docker', [Validators.required]],
+    proxy_inverso: [true],
     en_produccion: [false]
   });
 
   isEditMode: boolean = false;
   servidorId: number | null = null;
-  cargando: boolean = false;
   enviando: boolean = false;
   error: string | null = null;
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      this.isEditMode = true;
-      this.servidorId = +idParam;
-      this.cargarServidor(this.servidorId);
-    }
-  }
+    // Leemos el servidor precargado desde el Resolver
+    const servidor: NodoServidor | null = this.route.snapshot.data['servidor'];
 
-  cargarServidor(id: number): void {
-    this.cargando = true;
-    this.servidorService.getServidor(id).subscribe({
-      next: (servidor) => {
-        this.formServidor.patchValue(servidor);
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error('Error al obtener el servidor:', err);
-        this.error = 'No se pudo cargar la información del servidor.';
-        this.cargando = false;
-      }
-    });
+    if (servidor) {
+      this.isEditMode = true;
+      this.servidorId = servidor.id ?? null;
+      this.formServidor.patchValue(servidor);
+    }
   }
 
   guardar(): void {

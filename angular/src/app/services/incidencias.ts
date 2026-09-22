@@ -8,7 +8,7 @@ import { IncidenciaServidor } from '../models/infraestructura.model';
 })
 export class IncidenciaService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://192.168.20.13:8000/api';
+  private apiUrl = 'http://10.20.69.131:8000/api';
 
   // ------------------------------------------------------------------
   // RUTAS GENERALES (/api/incidencias/)
@@ -21,7 +21,7 @@ export class IncidenciaService {
 
   // Obtener el detalle de una incidencia específica por ID
   getIncidencia(id: number): Observable<any> {
-    return this.http.get(`\({this.apiUrl}/incidencias/\){id}/`);
+    return this.http.get(`${this.apiUrl}/incidencias/${id}/`);
   }
 
   // Crear una incidencia de forma independiente
@@ -31,12 +31,12 @@ export class IncidenciaService {
 
   // Actualizar una incidencia existente
   updateIncidencia(id: number, incidencia: IncidenciaServidor): Observable<any> {
-    return this.http.put(`\({this.apiUrl}/incidencias/\){id}/`, incidencia);
+    return this.http.put(`${this.apiUrl}/incidencias/${id}/`, incidencia);
   }
 
   // Eliminar una incidencia por ID
   deleteIncidencia(id: number): Observable<any> {
-    return this.http.delete(`\({this.apiUrl}/incidencias/\){id}/`);
+    return this.http.delete(`${this.apiUrl}/incidencias/${id}/`);
   }
 
   // ------------------------------------------------------------------
@@ -45,7 +45,7 @@ export class IncidenciaService {
 
   // Obtener únicamente las incidencias ligadas a un servidor en particular
   getIncidenciasPorServidor(servidorId: number): Observable<any> {
-    return this.http.get(`\({this.apiUrl}/servidores/\){servidorId}/incidencias/`);
+    return this.http.get(`${this.apiUrl}/servidores/${servidorId}/incidencias/`);
   }
 
   // Crear una incidencia asociando automáticamente el servidor en la URL
@@ -54,7 +54,7 @@ export class IncidenciaService {
     incidencia: Partial<any>
   ): Observable<any> {
     return this.http.post(
-      `\({this.apiUrl}/servidores/\){servidorId}/incidencias/`, 
+      `${this.apiUrl}/servidores/${servidorId}/incidencias/`, 
       incidencia
     );
   }

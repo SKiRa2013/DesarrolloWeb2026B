@@ -8,25 +8,25 @@ import { NodoServidor } from '../models/infraestructura.model';
 })
 export class ServidorService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://192.168.20.13:8000/api';
+  private apiUrl = `http://10.20.69.131:8000/api`;
 
   getServidores(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/servidores/`);
+    return this.http.get(`${this.apiUrl}/servidores`);
   }
 
   getServidor(id: number): Observable<any> {
-    return this.http.get(`\({this.apiUrl}/servidores/\){id}/`);
+    return this.http.get(`${this.apiUrl}/servidores/${id}/`);
   }
 
   createServidor(servidor: NodoServidor): Observable<any> {
-    return this.http.post(`${this.apiUrl}/servidores/new/`, servidor);
+    return this.http.post(`${this.apiUrl}/servidores/`, servidor);
   }
 
   updateServidor(id: number, servidor: NodoServidor): Observable<any> {
-    return this.http.put(`\({this.apiUrl}/servidores/\){id}/edit/`, servidor);
+    return this.http.put(`${this.apiUrl}/servidores/${id}/`, servidor);
   }
 
   deleteServidor(id: number): Observable<any> {
-    return this.http.delete(`\({this.apiUrl}/servidores/\){id}/delete/`);
+    return this.http.delete(`${this.apiUrl}/servidores/${id}/`);
   }
 }
