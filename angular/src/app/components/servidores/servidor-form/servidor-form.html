@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card shadow-sm border-0">
-        <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+        <div class="card-header text-white py-3 d-flex justify-content-between align-items-center" [ngClass]="isEditMode ? 'bg-warning' : 'bg-primary'">
           <h4 class="mb-0">
             @if (isEditMode) { 
               Editar Servidor: {{ formServidor.get('nombre_host')?.value }} 
@@ -19,7 +19,6 @@
           }
 
           <form [formGroup]="formServidor" (ngSubmit)="guardar()">
-            
             
             <div class="mb-3">
               <label for="nombre_host" class="form-label fw-bold">Nombre del Host (Hostname)</label>
@@ -39,8 +38,7 @@
             </div>
 
             <div class="row">
-              
-              <div class="col-md-6 mb-3">
+              <div class="col-md-6 mb-4">
                 <label for="motor_contenedores" class="form-label fw-bold">Motor de Contenedores</label>
                 <select id="motor_contenedores" class="form-select" formControlName="motor_contenedores">
                   <option value="docker">Docker</option>
@@ -49,28 +47,23 @@
                   <option value="ninguno">Ninguno</option>
                 </select>
               </div>
-
-              
-              <div class="col-md-6 mb-3 d-flex align-items-center">
-                <div class="form-check form-switch mt-3">
-                  <input type="checkbox" id="en_produccion" formControlName="en_produccion" class="form-check-input" role="switch" />
-                  <label for="en_produccion" class="form-check-label fw-semibold">
-                    Servidor en Producción
-                  </label>
-                </div>
-              </div>
             </div>
 
-            
-            <div class="mb-4 form-check">
+            <div class="col-md-6 d-flex align-items-center mb-2 form-check">
               <input id="proxy_inverso" type="checkbox" class="form-check-input" formControlName="proxy_inverso" />
               <label for="proxy_inverso" class="form-check-label">¿Tiene Nginx configurado como Reverse Proxy?</label>
             </div>
-
+          
+            <div class="col-md-6 d-flex align-items-center form-check mb-4">
+              <input type="checkbox" id="en_produccion" formControlName="en_produccion" class="form-check-input" />
+              <label for="en_produccion" class="form-check-label fw-semibold">
+                Servidor en Producción
+              </label>
+            </div>
             
             <div class="d-flex justify-content-end gap-2">
               <a routerLink="/servidores" class="btn btn-outline-secondary">Cancelar</a>
-              <button type="submit" class="btn btn-primary fw-bold" [disabled]="enviando">
+              <button type="submit" class="btn fw-bold" [ngClass]="isEditMode ? 'btn-warning' : 'btn-primary'" [disabled]="enviando">
                 @if (enviando) { Guardando... } @else { Guardar Servidor }
               </button>
             </div>

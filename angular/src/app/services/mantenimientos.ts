@@ -8,25 +8,25 @@ import { Mantenimiento } from '../models/infraestructura.model';
 })
 export class MantenimientoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://192.168.20.13:8000/api/mantenimientos';
+  private apiUrl = 'http://10.20.55.44:8000/api';
 
   getMantenimientos(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/`);
+    return this.http.get(`${this.apiUrl}/mantenimientos`);
   }
 
   getMantenimiento(id: number): Observable<any> {
-    return this.http.get(`\({this.apiUrl}/\){id}/`);
+    return this.http.get(`${this.apiUrl}/mantenimientos/${id}/`);
   }
 
   createMantenimiento(mantenimiento: Mantenimiento): Observable<any> {
-    return this.http.post(`${this.apiUrl}/`, mantenimiento);
+    return this.http.post(`${this.apiUrl}/mantenimientos/`, mantenimiento);
   }
 
   updateMantenimiento(id: number, mantenimiento: Mantenimiento): Observable<any> {
-    return this.http.put(`\({this.apiUrl}/\){id}/`, mantenimiento);
+    return this.http.put(`${this.apiUrl}/mantenimientos/${id}/`, mantenimiento);
   }
 
   deleteMantenimiento(id: number): Observable<any> {
-    return this.http.delete(`\({this.apiUrl}/\){id}/`);
+    return this.http.delete(`${this.apiUrl}/mantenimientos/${id}/`);
   }
 }

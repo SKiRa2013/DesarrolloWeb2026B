@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-wbjmmdi$_1el(@cdhi=u@q-2u%*y02prfce-9z)7od0bd1gx=x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.20.69.131', '192.168.20.13']     # Change this IP with your own
+ALLOWED_HOSTS = ['10.20.55.44', '192.168.20.13']     # Change this IP with your own
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition

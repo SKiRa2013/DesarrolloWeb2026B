@@ -8,6 +8,8 @@ import { servidorResolver } from './components/servidores/servidor-detail/servid
 import { incidenciasResolver } from './components/servidores/servidor-detail/incidencias.resolver';
 import { servidorDeleteResolver } from './components/servidores/servidor-delete/servidor-delete.resolver';
 import { servidorFormResolver } from './components/servidores/servidor-form/servidor-form.resolver';
+import { IncidenciasForm } from './components/incidencias/incidencias-form/incidencias-form';
+import { incidenciasFormResolver } from './components/incidencias/incidencias-form/incidencias-form.resolver';
 
 export const routes: Routes = [ 
   { path: '', redirectTo: 'servidores', pathMatch: 'full' },
@@ -42,5 +44,11 @@ export const routes: Routes = [
     resolve: { servidor: servidorDeleteResolver } 
   },
   
-  { path: '**', redirectTo: 'servidores' }
+  {
+    path: 'incidencias/nuevo',
+    component: IncidenciasForm,
+    resolve: { incidencia: incidenciasFormResolver }
+  },
+  
+  { path: '**', redirectTo: 'servidores' },
 ];

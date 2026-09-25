@@ -6,6 +6,7 @@ export interface NodoServidor {
   proxy_inverso: boolean;
   en_produccion: boolean;
   fecha_despliegue: string;
+  incidencias: IncidenciaServidor[];
 }
 
 export interface IncidenciaServidor {

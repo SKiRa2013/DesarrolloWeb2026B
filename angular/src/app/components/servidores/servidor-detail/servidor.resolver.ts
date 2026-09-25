@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { ServidorService } from '../../../services/servidores';
-import { NodoServidor } from '../../../models/infraestructura.model';
 
 export const servidorResolver: ResolveFn<any> = (route) => {
   const servidorService = inject(ServidorService);
