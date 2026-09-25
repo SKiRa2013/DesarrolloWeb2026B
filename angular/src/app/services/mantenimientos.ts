@@ -8,7 +8,7 @@ import { Mantenimiento } from '../models/infraestructura.model';
 })
 export class MantenimientoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://10.20.69.131:8000/api/mantenimientos';
+  private apiUrl = 'http://192.168.20.13:8000/api/mantenimientos';
 
   getMantenimientos(): Observable<any> {
     return this.http.get(`${this.apiUrl}/`);

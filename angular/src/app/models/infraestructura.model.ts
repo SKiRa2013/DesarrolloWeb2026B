@@ -1,5 +1,3 @@
-import { Timestamp } from "rxjs";
-
 export interface NodoServidor {
   id: number;
   nombre_host: string;

@@ -8,7 +8,7 @@ import { NodoServidor } from '../models/infraestructura.model';
 })
 export class ServidorService {
   private http = inject(HttpClient);
-  private apiUrl = `http://10.20.69.131:8000/api`;
+  private apiUrl = `http://192.168.20.13:8000/api`;
 
   getServidores(): Observable<any> {
     return this.http.get(`${this.apiUrl}/servidores`);

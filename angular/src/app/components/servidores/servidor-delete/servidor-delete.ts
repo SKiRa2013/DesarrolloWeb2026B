@@ -16,44 +16,28 @@ export class ServidorDelete implements OnInit {
   private router = inject(Router);
   private servidorService = inject(ServidorService);
 
-  servidor?: NodoServidor;
-  cargando: boolean = true;
+  servidor: NodoServidor | null = null;
   eliminando: boolean = false;
   error: string | null = null;
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.cargarServidor(id);
-    }
-  }
-
-  cargarServidor(id: number): void {
-    this.cargando = true;
-    this.servidorService.getServidor(id).subscribe({
-      next: (data) => {
-        this.servidor = data;
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar servidor:', err);
-        this.error = 'No se pudo obtener la información del servidor que deseas eliminar.';
-        this.cargando = false;
-      }
-    });
+    // Obtenemos los datos resueltos por el Resolver
+    this.servidor = this.route.snapshot.data['servidor'];
   }
 
   confirmarEliminacion(): void {
     if (!this.servidor?.id) return;
 
     this.eliminando = true;
+    this.error = null;
+
     this.servidorService.deleteServidor(this.servidor.id).subscribe({
       next: () => {
         this.router.navigate(['/servidores']);
       },
       error: (err) => {
-        console.error('Error al eliminar:', err);
-        this.error = 'Ocurrió un error al intentar eliminar el servidor de la base de datos.';
+        console.error('Error al eliminar el servidor:', err);
+        this.error = 'Ocurrió un error al intentar eliminar el servidor.';
         this.eliminando = false;
       }
     });

@@ -6,6 +6,8 @@ import { ServidorDelete } from './components/servidores/servidor-delete/servidor
 import { listServidoresResolver } from './components/servidores/list-servidores/list-servidores.resolver';
 import { servidorResolver } from './components/servidores/servidor-detail/servidor.resolver';
 import { incidenciasResolver } from './components/servidores/servidor-detail/incidencias.resolver';
+import { servidorDeleteResolver } from './components/servidores/servidor-delete/servidor-delete.resolver';
+import { servidorFormResolver } from './components/servidores/servidor-form/servidor-form.resolver';
 
 export const routes: Routes = [ 
   { path: '', redirectTo: 'servidores', pathMatch: 'full' },
@@ -16,7 +18,11 @@ export const routes: Routes = [
     resolve: { servidores: listServidoresResolver } 
   },
 
-  { path: 'servidores/nuevo', component: ServidorForm },
+  { 
+    path: 'servidores/nuevo',
+    component: ServidorForm,
+    resolve: { servidor: servidorFormResolver } 
+  },
 
   { 
     path: 'servidores/:id',
@@ -24,7 +30,17 @@ export const routes: Routes = [
     resolve: { servidor: servidorResolver, incidencias: incidenciasResolver } 
   },
 
-  { path: 'servidores/:id/editar', component: ServidorForm },
-  { path: 'servidores/:id/eliminar', component: ServidorDelete },
+  { 
+    path: 'servidores/:id/editar',
+    component: ServidorForm,
+    resolve: { servidor: servidorFormResolver }  
+  },
+
+  { 
+    path: 'servidores/:id/eliminar',
+    component: ServidorDelete, 
+    resolve: { servidor: servidorDeleteResolver } 
+  },
+  
   { path: '**', redirectTo: 'servidores' }
 ];
